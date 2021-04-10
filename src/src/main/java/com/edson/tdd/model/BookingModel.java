@@ -8,9 +8,9 @@ public class BookingModel {
     private String reserveName;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    private int numberGuests;
+    private Integer numberGuests;
 
-    public BookingModel(String id, String reserveName, LocalDate checkIn, LocalDate checkOut, int numberGuests) {
+    public BookingModel(String id, String reserveName, LocalDate checkIn, LocalDate checkOut, Integer numberGuests) {
         this.id = id;
         this.reserveName = reserveName;
         this.checkIn = checkIn;
@@ -50,7 +50,7 @@ public class BookingModel {
         this.checkOut = checkOut;
     }
 
-    public int getNumberGuests() {
+    public Integer getNumberGuests() {
         return numberGuests;
     }
 

@@ -1,7 +1,10 @@
 package com.edson.tdd;
 
 import com.edson.tdd.controller.BookingController;
+import com.edson.tdd.model.BookingModel;
 import com.edson.tdd.repository.BookingRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,12 +15,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BookingControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     BookingRepository bookingRepository;
@@ -26,5 +34,20 @@ public class BookingControllerTest {
     public void bookingTestGetAll() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/bookings"))
                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void bookingTestSave() throws Exception {
+
+        LocalDate checkIn = LocalDate.parse("2020-11-10");
+        LocalDate checkOut = LocalDate.parse("2020-11-20");
+
+        BookingModel bookingModel = new BookingModel("1", "Edson", checkIn, checkOut, 2);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/bookings")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(bookingModel)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
     }
 }
